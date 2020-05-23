@@ -1,13 +1,12 @@
 package carpetclient.gui.config;
 
+import net.minecraft.client.Minecraft;
 import carpetclient.Config;
 import carpetclient.coders.EDDxample.VillageMarker;
 import carpetclient.coders.Pokechu22.GuiConfigList;
 import carpetclient.config.ConfigBase;
-import carpetclient.gui.ConfigGUI;
 import carpetclient.gui.entry.ConfigBooleanEntry;
 import carpetclient.gui.entry.ConfigIntegerEntry;
-import net.minecraft.client.Minecraft;
 
 public class VillageMarkersList extends GuiConfigList {
     public VillageMarkersList(Minecraft mcIn, int slotHeightIn) {
@@ -20,9 +19,10 @@ public class VillageMarkersList extends GuiConfigList {
         Config.save();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
-        for (ConfigBase opt : Config.VILLAGEMARKERS) {
+        for (ConfigBase<?> opt : Config.VILLAGEMARKERS) {
             if (opt.getType() == ConfigBase.ConfigType.BOOLEAN)
                 addEntry(new ConfigBooleanEntry((ConfigBase<Boolean>)opt, true) {
                     @Override

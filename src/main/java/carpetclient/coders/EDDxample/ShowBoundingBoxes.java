@@ -47,7 +47,7 @@ public class ShowBoundingBoxes {
             false
     };
 
-    private static ArrayList<StructureBoundingBox>[] group = new ArrayList[10];
+    private static ArrayList<ArrayList<StructureBoundingBox>> group = new ArrayList<>();
     private static Color[] colors = {
             new Color(0xFFFF00), //0
             new Color(0xFF0000), //1
@@ -68,8 +68,8 @@ public class ShowBoundingBoxes {
     private static int structureCount = 0;
 
     static {
-        for (int i = 0; i < group.length; i++) {
-            group[i] = new ArrayList<StructureBoundingBox>();
+        for (int i = 0; i < colors.length; i++) {
+            group.add(new ArrayList<>());
         }
     }
 
@@ -89,7 +89,7 @@ public class ShowBoundingBoxes {
         RenderUtils.prepareOpenGL(true);
 
         if (show[SLIME_CHUNKS]) {
-            ArrayList<StructureBoundingBox> array = group[SLIME_CHUNKS];
+            ArrayList<StructureBoundingBox> array = group.get(SLIME_CHUNKS);
             if (array == null) return;
             for (StructureBoundingBox box : array) {
                 if (insideRenderDistance(box, player)) {
@@ -99,9 +99,9 @@ public class ShowBoundingBoxes {
         }
 
         if (player.dimension == dimension) {
-            for (int i = 0; i < group.length; i++) {
+            for (int i = 0; i < group.size(); i++) {
                 if (!show[i]) continue;
-                ArrayList<StructureBoundingBox> array = group[i];
+                ArrayList<StructureBoundingBox> array = group.get(i);
                 if (array == null) return;
                 for (StructureBoundingBox box : array) {
                     if (insideRenderDistance(box, player)) {
@@ -220,7 +220,7 @@ public class ShowBoundingBoxes {
             for (int ChunkZ = cnkZ - 20; ChunkZ < cnkZ + 20; ChunkZ++) {
                 if (mc.world.provider.getDimensionType() == DimensionType.OVERWORLD && isSlimeChunk(ChunkX, ChunkZ, seed)) {
                     StructureBoundingBox boundingBox = new StructureBoundingBox(ChunkX << 4, 0, ChunkZ << 4, (ChunkX << 4) + 16, 40, (ChunkZ << 4) + 16);
-                    group[SLIME_CHUNKS].add(boundingBox);
+                    group.get(SLIME_CHUNKS).add(boundingBox);
                 }
             }
         }
@@ -232,7 +232,7 @@ public class ShowBoundingBoxes {
         
         int type = compound.getInteger("type");
         StructureBoundingBox boundingBox = new StructureBoundingBox(compound.getIntArray("bb"));
-        group[type].add(boundingBox);
+        group.get(type).add(boundingBox);
         
         structureCount++;
     }

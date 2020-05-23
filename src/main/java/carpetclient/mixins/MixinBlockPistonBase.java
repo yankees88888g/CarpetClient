@@ -99,6 +99,7 @@ public abstract class MixinBlockPistonBase extends BlockDirectional {
      * is a non-moving block and returns a meta value of 16 so it can tell the client to ignore pulling blocks
      * even if the client can pull them.
      */
+    /*
     private int ignoreMovingBlockMeta(World worldIn, BlockPos pos, EnumFacing enumfacing) {
         BlockPos blockpos = pos.add(enumfacing.getXOffset() * 2, enumfacing.getYOffset() * 2, enumfacing.getZOffset() * 2);
         IBlockState iblockstate = worldIn.getBlockState(blockpos);
@@ -108,6 +109,7 @@ public abstract class MixinBlockPistonBase extends BlockDirectional {
 
         return 0;
     }
+    */
 
 //    // Inject into block activated to show piston update order
 //    @Inject(method = "onBlockActivated", at = @At("HEAD"), cancellable = true)

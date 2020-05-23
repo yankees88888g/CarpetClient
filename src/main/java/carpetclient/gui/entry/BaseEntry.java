@@ -49,6 +49,7 @@ public abstract class BaseEntry<T> implements GuiListExtended.IGuiListEntry {
 
     protected boolean onFocusChanged(int mouseX, int mouseY) { return false; }
 
+    @SuppressWarnings("unchecked")
     public T onAction(Consumer<T> action) {
         if (actions == null)
             actions = new ArrayList<>();

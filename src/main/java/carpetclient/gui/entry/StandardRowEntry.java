@@ -117,6 +117,7 @@ public abstract class StandardRowEntry<T> extends BaseEntry<T> implements IToolt
         return super.onFocusChanged(mouseX, mouseY);
     }
 
+    @SuppressWarnings("unchecked")
     public T onInfo(Consumer<T> action) {
         if (infos == null)
             infos = new ArrayList<>();
@@ -125,6 +126,7 @@ public abstract class StandardRowEntry<T> extends BaseEntry<T> implements IToolt
         return (T)this;
     }
 
+    @SuppressWarnings("unchecked")
     public T onReset(Consumer<T> action) {
         if (resets == null)
             resets = new ArrayList<>();
@@ -133,11 +135,13 @@ public abstract class StandardRowEntry<T> extends BaseEntry<T> implements IToolt
         return (T)this;
     }
 
+    @SuppressWarnings("unchecked")
     private void performInfoAction() {
         if (infos != null)
             infos.forEach((r) -> r.accept((T)this));
     }
 
+    @SuppressWarnings("unchecked")
     private void performResetAction() {
         if (resets != null)
             resets.forEach((r) -> r.accept((T)this));

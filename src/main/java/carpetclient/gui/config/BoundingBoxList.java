@@ -1,11 +1,10 @@
 package carpetclient.gui.config;
 
+import net.minecraft.client.Minecraft;
 import carpetclient.Config;
 import carpetclient.coders.Pokechu22.GuiConfigList;
 import carpetclient.config.ConfigBase;
-import carpetclient.gui.ConfigGUI;
 import carpetclient.gui.entry.ConfigBooleanEntry;
-import net.minecraft.client.Minecraft;
 
 public class BoundingBoxList extends GuiConfigList {
     public BoundingBoxList(Minecraft mcIn, int slotHeightIn) {
@@ -18,9 +17,10 @@ public class BoundingBoxList extends GuiConfigList {
         Config.save();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui() {
-        for (ConfigBase opt : Config.BOUNDINGBOXES) {
+        for (ConfigBase<?> opt : Config.BOUNDINGBOXES) {
             if (opt.getType() == ConfigBase.ConfigType.BOOLEAN)
                 addEntry(new ConfigBooleanEntry((ConfigBase<Boolean>)opt, true) {
                     @Override

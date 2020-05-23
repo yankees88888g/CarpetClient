@@ -238,14 +238,13 @@ public class CarpetRules {
         private String rule;
         private String currentOption;
         private boolean isNumber;
-        private String[] options;
+        //private String[] options;
         private String defaultOption;
         private boolean isDefault;
         private String ruleTip;
         private boolean isFloat;
 
         private int integer;
-        private float flt;
         private boolean bool;
 
         public CarpetSettingEntry(String rule, String currentOption, String[] options, String defaultOption, boolean isFloat) {
@@ -256,7 +255,7 @@ public class CarpetRules {
 
         public void update(String currentOption, String[] options, String defaultOption, boolean isFloat) {
             this.currentOption = currentOption;
-            this.options = options;
+            //this.options = options;
             this.defaultOption = defaultOption;
             this.isFloat = isFloat;
             this.checkValues();
@@ -276,11 +275,10 @@ public class CarpetRules {
             }
 
             try {
-                this.flt = Float.parseFloat(this.currentOption);
+                Float.parseFloat(this.currentOption);
                 this.isNumber = true;
             } catch (NumberFormatException e) {
                 this.isNumber = false;
-                this.flt = 0.0F;
             }
         }
 

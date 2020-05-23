@@ -68,7 +68,7 @@ public class Config {
     public static ConfigBoolean boundingBoxSlimeChunk =           new ConfigBoolean("Slime Chunks", false,"Displays bounding box of this type.");
 
 
-    public static ConfigBase[] CLIENTSETTINGS = new ConfigBase[] {
+    public static ConfigBase<?>[] CLIENTSETTINGS = new ConfigBase[] {
             setTickRate,
             bucketGhostBlockFix,
             elytraFix,
@@ -81,7 +81,7 @@ public class Config {
             carefulBreak
     };
 
-    public static ConfigBase[] VILLAGEMARKERS = new ConfigBase[]{
+    public static ConfigBase<?>[] VILLAGEMARKERS = new ConfigBase[]{
             villageMarkerLines,
             villageMarkerGolem,
             villageMarkerPopulation,
@@ -89,7 +89,7 @@ public class Config {
             villageMarkerDoorRadius
     };
 
-    public static ConfigBase[] BOUNDINGBOXES = new ConfigBase[]{
+    public static ConfigBase<?>[] BOUNDINGBOXES = new ConfigBase[]{
             boundingBoxOuter,
             boundingBoxEndCity,
             boundingBoxFortress,

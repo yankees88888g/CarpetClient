@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class RandomtickDisplay {
-    private static final String gold = "\u00a76", red = "\u00a74", green = "\u00a72", pushe = "\u00a76Pushes", pull = "\u00a76Pull";
+    private static final String gold = "\u00a76";//, red = "\u00a74", green = "\u00a72", pushe = "\u00a76Pushes", pull = "\u00a76Pull";
     private static ArrayList<BlockPos> chunks = new ArrayList<>();
 
     public static void processPacket(PacketBuffer data) {

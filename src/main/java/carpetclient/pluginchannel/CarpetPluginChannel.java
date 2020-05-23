@@ -1,29 +1,25 @@
 package carpetclient.pluginchannel;
 
 
-import carpetclient.coders.skyrising.PacketSplitter;
-import carpetclient.coders.zerox53ee71ebe11e.Chunkdata;
-import carpetclient.bugfix.PistonFix;
-import carpetclient.random.RandomtickDisplay;
-import carpetclient.util.CustomCrafting;
 import com.google.common.collect.ImmutableList;
-import com.mumfrey.liteloader.core.ClientPluginChannels;
-import com.mumfrey.liteloader.core.PluginChannels;
+import net.minecraft.network.PacketBuffer;
 import com.mumfrey.liteloader.core.PluginChannels.ChannelPolicy;
-
+import carpetclient.bugfix.PistonFix;
 import carpetclient.coders.EDDxample.ShowBoundingBoxes;
 import carpetclient.coders.EDDxample.VillageMarker;
+import carpetclient.coders.skyrising.PacketSplitter;
+import carpetclient.coders.zerox53ee71ebe11e.Chunkdata;
+import carpetclient.random.RandomtickDisplay;
 import carpetclient.rules.CarpetRules;
 import carpetclient.rules.TickRate;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.PacketBuffer;
+import carpetclient.util.CustomCrafting;
 
 /*
 Plugin channel class to implement a client server communication between carpet client and carpet server.
  */
 public class CarpetPluginChannel {
     public static final String CARPET_CHANNEL_NAME = "carpet:client";
-    public static final ImmutableList CARPET_PLUGIN_CHANNEL = ImmutableList.of(CARPET_CHANNEL_NAME);
+    public static final ImmutableList<String> CARPET_PLUGIN_CHANNEL = ImmutableList.of(CARPET_CHANNEL_NAME);
 
     public static final int GUI_ALL_DATA = 0;
     public static final int RULE_REQUEST = 1;

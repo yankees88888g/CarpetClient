@@ -13,12 +13,14 @@ public class BiObservable<T, U> implements IObservable<T, BiConsumer<T, U>>
         subscribers = new ArrayList<>();
     }
 
+    @SuppressWarnings("unchecked")
     public void notifySubscribers(U value)
     {
         if (subscribers != null)
             subscribers.forEach((r) -> r.accept((T)this, value));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T subscribe(BiConsumer<T, U> subscriber)
     {
@@ -29,6 +31,7 @@ public class BiObservable<T, U> implements IObservable<T, BiConsumer<T, U>>
         return (T)this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T unsubscribe(BiConsumer<T, U> subscriber)
     {

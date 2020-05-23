@@ -1,21 +1,20 @@
 package carpetclient.gui.chunkgrid;
 
-import carpetclient.coders.zerox53ee71ebe11e.Chunkdata;
-import carpetclient.pluginchannel.CarpetPluginChannel;
-import com.google.common.base.Splitter;
-import io.netty.buffer.Unpooled;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.chunk.Chunk;
-import org.lwjgl.util.Point;
-
-import javax.naming.ldap.Control;
-import javax.swing.*;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import org.lwjgl.util.Point;
+import com.google.common.base.Splitter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.math.BlockPos;
+import carpetclient.coders.zerox53ee71ebe11e.Chunkdata;
 
 /**
  * Controller class for the chunk debug tool in carpet client. Controls all logic for GUI options.

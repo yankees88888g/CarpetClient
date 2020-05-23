@@ -89,12 +89,12 @@ public abstract class GuiConfigList extends GuiListExtended {
     protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
         if (getSelectedElement() != -1 && getSelectedElement() != slotIndex)
         {
-            ((BaseEntry) this.getListEntry(getSelectedElement())).testFocused(mouseX, mouseY);
+            ((BaseEntry<?>) this.getListEntry(getSelectedElement())).testFocused(mouseX, mouseY);
         }
 
         if (slotIndex != -1)
         {
-            ((BaseEntry) this.getListEntry(slotIndex)).testFocused(mouseX, mouseY);
+            ((BaseEntry<?>) this.getListEntry(slotIndex)).testFocused(mouseX, mouseY);
         }
     }
 }

@@ -1,19 +1,18 @@
 package carpetclient.gui.chunkgrid;
 
-import carpetclient.Util;
-import carpetclient.coders.Pokechu22.GuiNumericTextField;
+import java.io.IOException;
+import java.util.Random;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import java.io.IOException;
-import java.util.Random;
+import carpetclient.Util;
+import carpetclient.coders.Pokechu22.GuiNumericTextField;
 
 /**
  * Extensive GUI clas used for Debug Chunk Window
@@ -34,17 +33,11 @@ public class GuiChunkGrid extends GuiScreen {
     private GuiButton backButton;
     private GuiButton forwardButton;
     private GuiButton currentButton;
-    private GuiButton beginingButton;
-    private GuiButton endButton;
     private GuiButton playButton;
 
     private GuiNumericTextField textFieldX;
     private GuiNumericTextField textFieldZ;
     private GuiNumericTextField textFieldGT;
-
-    private int time;
-    private int xText;
-    private int zText;
 
     private static final String[] MINIMAP_NAMES = {"Minimap OFF", "Follow", "Static"};
     private int selectedMinimap = 0;
@@ -94,8 +87,8 @@ public class GuiChunkGrid extends GuiScreen {
         addButton(backButton = new GuiButton(5, getFooterX(1), getFooterY(1), getFooterColWidth(), FOOTER_ROW_HEIGHT, "Back"));
         addButton(forwardButton = new GuiButton(6, getFooterX(2), getFooterY(1), getFooterColWidth(), FOOTER_ROW_HEIGHT, "Forward"));
 
-        addButton(beginingButton = new GuiButton(7, getFooterX(0), getFooterY(1), getFooterColWidth(), FOOTER_ROW_HEIGHT, "Begining"));
-        addButton(endButton = new GuiButton(8, getFooterX(3), getFooterY(1), getFooterColWidth(), FOOTER_ROW_HEIGHT, "End"));
+        addButton(new GuiButton(7, getFooterX(0), getFooterY(1), getFooterColWidth(), FOOTER_ROW_HEIGHT, "Begining"));
+        addButton(new GuiButton(8, getFooterX(3), getFooterY(1), getFooterColWidth(), FOOTER_ROW_HEIGHT, "End"));
         addButton(playButton = new GuiButton(9, getFooterX(4), getFooterY(1), getFooterColWidth(), FOOTER_ROW_HEIGHT, controller.play ? "Pause" : "Play"));
 
         addButton(new GuiButton(10, getFooterX(0), getFooterY(2), getFooterColWidth(), FOOTER_ROW_HEIGHT, "Home"));

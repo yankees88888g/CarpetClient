@@ -105,7 +105,7 @@ public class MixinItemBucket extends Item {
                         }
 
                         playerIn.addStat(StatList.getObjectUseStats(this));
-                        cir.setReturnValue(!playerIn.capabilities.isCreativeMode ? new ActionResult(EnumActionResult.SUCCESS, new ItemStack(Items.BUCKET)) : new ActionResult(EnumActionResult.SUCCESS, itemstack));
+                        cir.setReturnValue(!playerIn.capabilities.isCreativeMode ? new ActionResult<>(EnumActionResult.SUCCESS, new ItemStack(Items.BUCKET)) : new ActionResult<>(EnumActionResult.SUCCESS, itemstack));
                         return;
                     }
                     cir.setReturnValue(new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack));

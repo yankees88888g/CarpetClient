@@ -1,20 +1,6 @@
 package carpetclient.mixins;
 
-import carpetclient.Config;
-import carpetclient.bugfix.PistonFix;
-import carpetclient.rules.CarpetRules;
-import carpetclient.util.ITileEntityPiston;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockFurnace;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityPiston;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
+import java.util.List;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,9 +8,21 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDispenser;
+import net.minecraft.block.BlockFurnace;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-
-import java.util.List;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityPiston;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import carpetclient.Config;
+import carpetclient.bugfix.PistonFix;
+import carpetclient.util.ITileEntityPiston;
 
 @Mixin(TileEntityPiston.class)
 public class MixinTileEntityPiston extends TileEntity implements ITileEntityPiston

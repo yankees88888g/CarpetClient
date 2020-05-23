@@ -3,8 +3,6 @@ package carpetclient.mixins;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-
-import carpetclient.Config;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityStructure;
 

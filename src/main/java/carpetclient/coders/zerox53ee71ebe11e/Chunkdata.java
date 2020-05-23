@@ -1,24 +1,28 @@
 package carpetclient.coders.zerox53ee71ebe11e;
 
-import carpetclient.Util;
-import carpetclient.gui.chunkgrid.GuiChunkGrid;
-import carpetclient.pluginchannel.CarpetPluginChannel;
-import io.netty.buffer.Unpooled;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.TreeMap;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.PacketBuffer;
-
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.util.*;
-import java.io.IOException;
-import java.util.Map.Entry;
+import carpetclient.gui.chunkgrid.GuiChunkGrid;
+import carpetclient.pluginchannel.CarpetPluginChannel;
+import io.netty.buffer.Unpooled;
 
 /**
  * Class made by 0x53ee71ebe11e for the Chunk Debug tool. Don't ask me how it works.
  * Contact 0x53ee71ebe11e for use of this class.
  */
 public class Chunkdata implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     public static enum Event {
         NONE,
@@ -268,7 +272,6 @@ public class Chunkdata implements Serializable {
 
     public class MapView implements Iterable<ChunkView> {
 
-        private int clearCount = Chunkdata.this.clearCount;
         private int gametick;
         private int minx = 0;
         private int maxx = 0;
@@ -352,9 +355,7 @@ public class Chunkdata implements Serializable {
             // seek one step forward
             if ((gametick > this.gametick) && (gametick <= getNextGametick(this.gametick))) {
                 for (int zi = 0; zi < zsize; ++zi) {
-                    int z = zi + minz;
                     for (int xi = 0; xi < xsize; ++xi) {
-                        int x = xi + minx;
                         int i = xi + zi * xsize;
                         chunkViews[i].update(seekGametick[i]);
                     }
@@ -533,7 +534,6 @@ public class Chunkdata implements Serializable {
         return gametickMin;
     }
 
-    private int clearCount = 0;
     private EventCollection allEvents[];
     private TreeMap<Integer, String> allStacktraces;
     private ArrayList<FullEvent> receiveBuffer = new ArrayList<>();
@@ -794,7 +794,7 @@ public class Chunkdata implements Serializable {
             }
         }
         if (this.allStacktraces == null) {
-            this.allStacktraces = new TreeMap();
+            this.allStacktraces = new TreeMap<>();
         }
         if (this.receiveBuffer == null) {
             this.receiveBuffer = new ArrayList<>();
@@ -854,10 +854,6 @@ public class Chunkdata implements Serializable {
             this.addData(tick, evnum, x, z, d, event, traceid, reason);
         }
         this.completeData();
-    }
-
-    private void readObjectNoData()
-            throws ObjectStreamException {
     }
 
     private boolean unpackNBT(NBTTagCompound nbt) {

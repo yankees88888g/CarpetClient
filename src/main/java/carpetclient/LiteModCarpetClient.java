@@ -2,21 +2,25 @@ package carpetclient;
 
 import java.io.File;
 import java.util.List;
-
-import carpetclient.coders.EDDxample.PistonHelper;
-import carpetclient.coders.EDDxample.ShowBoundingBoxes;
-import carpetclient.coders.EDDxample.VillageMarker;
-import carpetclient.coders.skyrising.PacketSplitter;
-import carpetclient.gui.chunkgrid.Controller;
-import carpetclient.gui.chunkgrid.GuiChunkGrid;
-import carpetclient.random.RandomtickDisplay;
-import com.mumfrey.liteloader.*;
-import carpetclient.pluginchannel.CarpetPluginChannel;
-import carpetclient.rules.CarpetRules;
-import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.network.PacketBuffer;
+import com.mumfrey.liteloader.Configurable;
+import com.mumfrey.liteloader.HUDRenderListener;
+import com.mumfrey.liteloader.LiteMod;
+import com.mumfrey.liteloader.PluginChannelListener;
+import com.mumfrey.liteloader.PostRenderListener;
+import com.mumfrey.liteloader.Tickable;
+import com.mumfrey.liteloader.ViewportListener;
+import com.mumfrey.liteloader.modconfig.ConfigPanel;
+import carpetclient.coders.EDDxample.PistonHelper;
+import carpetclient.coders.EDDxample.ShowBoundingBoxes;
+import carpetclient.coders.EDDxample.VillageMarker;
+import carpetclient.gui.chunkgrid.Controller;
+import carpetclient.gui.chunkgrid.GuiChunkGrid;
+import carpetclient.pluginchannel.CarpetPluginChannel;
+import carpetclient.random.RandomtickDisplay;
+import carpetclient.rules.CarpetRules;
 
 public class LiteModCarpetClient implements Tickable, LiteMod, PluginChannelListener, PostRenderListener, HUDRenderListener, Configurable, ViewportListener {
 
