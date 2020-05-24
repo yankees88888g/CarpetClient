@@ -2,8 +2,10 @@ package carpetclient.pluginchannel;
 
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketBuffer;
-import com.mumfrey.liteloader.core.PluginChannels.ChannelPolicy;
+import net.minecraft.util.ResourceLocation;
 import carpetclient.bugfix.PistonFix;
 import carpetclient.coders.EDDxample.ShowBoundingBoxes;
 import carpetclient.coders.EDDxample.VillageMarker;
@@ -38,10 +40,15 @@ public class CarpetPluginChannel {
      * @param data    incoming data from server.
      */
     public static void packatReceiver(String channel, PacketBuffer data) {
+        data.readerIndex(0);
         PacketBuffer buffer = PacketSplitter.receive(CARPET_CHANNEL_NAME, data);
-        if(buffer != null) {
+
+        // Received the complete packet
+        if (buffer != null) {
             handleData(buffer);
         }
+
+        data.readerIndex(0);
     }
 
     /**
@@ -87,6 +94,9 @@ public class CarpetPluginChannel {
      * @param data The data that is being sent to the server.
      */
     public static void packatSender(PacketBuffer data) {
-        PacketSplitter.send(CARPET_CHANNEL_NAME, data, ChannelPolicy.DISPATCH_IF_REGISTERED);
+        NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getConnection();
+        if (netHandler != null) {
+            PacketSplitter.send(netHandler, new ResourceLocation(CARPET_CHANNEL_NAME), data);
+        }
     }
 }

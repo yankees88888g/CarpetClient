@@ -5,13 +5,14 @@
 
 package carpetclient.coders.skyrising;
 
-import com.mumfrey.liteloader.core.ClientPluginChannels;
-import com.mumfrey.liteloader.core.PluginChannels;
-import io.netty.buffer.Unpooled;
-import net.minecraft.network.PacketBuffer;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CPacketCustomPayload;
+import net.minecraft.util.ResourceLocation;
+import io.netty.buffer.Unpooled;
 
 public class PacketSplitter {
     public static final int MAX_TOTAL_PER_PACKET = 32767;
@@ -20,19 +21,20 @@ public class PacketSplitter {
 
     private static final Map<String, ReadingSession> readingSessions = new HashMap<>();
 
-    public static boolean send(String channel, PacketBuffer packet, PluginChannels.ChannelPolicy policy) {
+    public static void send(final NetHandlerPlayClient networkHandler, final ResourceLocation channel, final PacketBuffer packet) {
+        send(packet, MAX_PAYLOAD_PER_PACKET, buf -> networkHandler.sendPacket(new CPacketCustomPayload(channel.toString(), buf)));
+    }
+
+    private static boolean send(PacketBuffer packet, int payloadLimit, Consumer<PacketBuffer> sender) {
         int len = packet.writerIndex();
         packet.resetReaderIndex();
-        for (int offset = 0; offset < len; offset += MAX_PAYLOAD_PER_PACKET) {
-            int thisLen = Math.min(len - offset, MAX_PAYLOAD_PER_PACKET);
+        for (int offset = 0; offset < len; offset += payloadLimit) {
+            int thisLen = Math.min(len - offset, payloadLimit);
             PacketBuffer buf = new PacketBuffer(Unpooled.buffer(thisLen));
             buf.resetWriterIndex();
             if (offset == 0) buf.writeVarInt(len);
             buf.writeBytes(packet, thisLen);
-            if (!ClientPluginChannels.sendMessage(channel, buf, policy)) {
-                packet.release();
-                return false;
-            }
+            sender.accept(buf);
         }
         packet.release();
         return true;

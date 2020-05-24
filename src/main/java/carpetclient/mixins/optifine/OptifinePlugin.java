@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 public class OptifinePlugin implements IMixinConfigPlugin {
-    Logger LOGGER = LogManager.getLogger("LiteLoader");
+    Logger LOGGER = LogManager.getLogger("CarpetClient");
 
     @Override
     public void onLoad(String mixinPackage) {

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "carpetclient",
+  "name": "Carpet Client",
+  "description": "Integration with Carpet mod on the server",
+  "version": "${mod_version}",
+  "mcversion": "${minecraft_version}",
+  "url": "https://github.com/X-com/CarpetClient",
+  "updateUrl": "",
+  "authorList": ["Xcom6000"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -151,13 +151,14 @@ public abstract class MixinBlockPistonBase extends BlockDirectional {
     }
 
     // MovableTE
-    @Redirect(method = "canPush", at = @At(value="INVOKE", target = "Lnet/minecraft/block/Block;hasTileEntity()Z"))
-    private static boolean canPushTE(Block block)
+    @Redirect(method = "canPush", at = @At(value="INVOKE",
+              target = "Lnet/minecraft/block/Block;hasTileEntity(Lnet/minecraft/block/state/IBlockState;)Z"))
+    private static boolean canPushTE(Block block, IBlockState state)
     {
         if (!Config.movableTileEntities)
-            return block.hasTileEntity();
+            return block.hasTileEntity(state);
 
-        if (!block.hasTileEntity())
+        if (!block.hasTileEntity(state))
             return !true;
         else
             return !(isPushableTileEntityBlock(block));

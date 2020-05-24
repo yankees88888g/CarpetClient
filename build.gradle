@@ -1,11 +1,7 @@
+
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -14,79 +10,134 @@ buildscript {
             name = 'sponge'
             url = 'http://repo.spongepowered.org/maven'
         }
-        jcenter()
     }
+
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 
 apply plugin: 'java'
-
-version = "v1.4b"
-group = "Carpet Team"
-archivesBaseName = "Carpet Client"
-
-apply plugin: 'net.minecraftforge.gradle.liteloader'
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
-
-minecraft {
-    version = "1.12.2"
-    mappings = "stable_39"
-    runDir = "run"
-    makeObfSourceJar = false
-    replace '@VERSION@', project.version
-}
-
-libsDirName = "../libs"
-
-litemod {
-    json {
-        name = "Carpet Client"
-        displayName = "Carpet Client"
-        author = "Carpet Team"
-        mcversion = "1.12.2"
-        description = "Carpet Client for Carpet Server"
-        classTransformerClasses += "carpetclient.transformers.MinecraftTransformer"
-        mixinConfigs += "mixins.carpetclient.json"
-        mixinConfigs += "mixins.carpetclient.optifinecompat.json"
-        version = project.version
-    }
-}
-
-jar {
-    from litemod.outputs
-    baseName = archivesBaseName
-    classifier = null
-}
-
-sourceSets {
-    main {
-        ext.refMap = "mixins.carpetclient.refmap.json"
-    }
-}
-
-mixin {
-    // liteloader does not do runtime deobfuscation, so in production we use "notch names", mixin needs to know this
-    defaultObfuscationEnv notch
-}
-
-/*dependencies {
-    compile 'net.minecraftforge:forgeflower:1.0.342-SNAPSHOT'
-}
-
-runClient {
-    systemProperty 'mixin.debug', 'true'
-}*/
 
 repositories {
     maven { url = "http://repo.spongepowered.org/maven" }
 }
+
+ext.configFile = file "build.properties"
+
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+sourceCompatibility = targetCompatibility = 1.8
+
+compileJava {
+    sourceCompatibility = targetCompatibility = 1.8
+    options.encoding = 'UTF-8'
+}
+
+minecraft {
+    version = config.minecraft_version + "-" + config.forge_version
+    mappings = config.mappings_version
+    runDir = 'minecraft'
+    makeObfSourceJar = false
+
+    ext.mod_version = config.mod_version
+
+    if (mod_version.endsWith('-dev')) {
+        mod_version = mod_version + "." + new Date().format('yyyyMMdd.HHmmss')
+    }
+
+    replaceIn "Reference.java"
+    replace "@MOD_VERSION@", mod_version
+
+    def args = [
+            "-Dfml.coreMods.load=carpetclient.core.CarpetClientCore",
+            "-Dmixin.checks.interfaces=true"
+    ]
+
+    clientJvmArgs.addAll(args)
+    serverJvmArgs.addAll(args)
+}
+
+sourceSets {
+    main {
+        ext.refMap = 'mixins.carpetclient.refmap.json'
+    }
+}
+
+configurations {
+    embed
+    implementation.extendsFrom(embed)
+
+    shade
+    compile.extendsFrom shade
+}
+
 dependencies {
+    shade('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: "asm-commons"
+        exclude module: "asm-tree"
+        exclude module: "launchwrapper"
+        exclude module: "guava"
+        exclude module: "log4j-core"
+        exclude module: "gson"
+        exclude module: "commons-io"
+    }
+    
     compile 'org.jetbrains.java.decompiler:fernflower:sponge-SNAPSHOT'
 }
-runClient {
-    jvmArgs "-Dmixin.debug=true"
-//    jvmArgs "-Dmixin.debug.export=true"
+
+group = /*config.group +*/ config.mod_id // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = config.mod_file_name + '-' + config.minecraft_version_out
+version = project.minecraft.mod_version
+
+jar {
+    manifest.attributes(
+            'FMLCorePlugin': 'carpetclient.core.CarpetClientCore',
+            //'FMLCorePluginContainsFMLMod': 'carpetclient.core.CarpetClient',
+            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+            'ForceLoadAsMod': 'true',
+            'TweakOrder': 0
+    )
+
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+        from(project.zipTree(dep)){
+            include 'META-INF/services', 'META-INF/services/**'
+        }
+    }
+}
+
+//tasks.withType(Jar)*.baseName = archivesBaseName
+
+processResources
+{
+    // Exclude the GIMP image files
+    exclude '**/*.xcf'
+    exclude '**/xcf'
+
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "mod_version", project.minecraft.mod_version
+    inputs.property "minecraft_version", project.config.minecraft_version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'mod_version': project.minecraft.mod_version, 'minecraft_version': project.config.minecraft_version
+    }
+      
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
 }

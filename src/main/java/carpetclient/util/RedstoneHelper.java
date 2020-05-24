@@ -197,6 +197,7 @@ public class RedstoneHelper {
             }
         }
 
+        @SuppressWarnings("deprecation")
         public boolean canPlaceBlockAt(BlockPos pos) {
             return getBlockState(pos.down()).isTopSolid() || getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
         }

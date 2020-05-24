@@ -1,22 +1,19 @@
 package carpetclient.util;
 
-import carpetclient.mixinInterface.AMixinRegistryNamespaced;
-import carpetclient.mixinInterface.AMixinSearchTree;
-import carpetclient.mixins.IMixinCraftingManager;
-import carpetclient.mixins.IMixinRecipeBookClient;
-import carpetclient.pluginchannel.CarpetPluginChannel;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.RecipeList;
 import net.minecraft.client.util.ISearchTree;
 import net.minecraft.client.util.RecipeBookClient;
-import net.minecraft.client.util.SearchTreeManager;
 import net.minecraft.client.util.SearchTree;
+import net.minecraft.client.util.SearchTreeManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -26,10 +23,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JsonUtils;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import carpetclient.mixinInterface.AMixinRegistryNamespaced;
+import carpetclient.mixinInterface.AMixinSearchTree;
+import carpetclient.mixins.IMixinCraftingManager;
+import carpetclient.mixins.IMixinRecipeBookClient;
+import carpetclient.pluginchannel.CarpetPluginChannel;
+import io.netty.buffer.Unpooled;
 
 /**
  * Recipe bridge class for Carpet servers synching custom recipes with carpet servers.
@@ -62,9 +61,9 @@ public class CustomCrafting {
             try {
                 IRecipe recipeparsed = parseRecipeJson(json);
 
-                try {
+                /*try {
                     CraftingManager.register(name, recipeparsed);
-                } catch (IllegalAccessError e1) {
+                } catch (IllegalAccessError e1) {*/
                     // Forge, you know, some things, are better done at run time.
                     Class<?> NamespacedWrapper_class = CraftingManager.REGISTRY.getClass();
 
@@ -83,7 +82,7 @@ public class CustomCrafting {
                     Method CraftingManager_register = CraftingManager.class.getDeclaredMethod("func_193379_a", String.class, IRecipe.class);
                     CraftingManager_register.setAccessible(true);
                     CraftingManager_register.invoke(null, name, recipeparsed);
-                }
+                //}
             } catch (Exception e) {
                 System.out.println("something went wrong");
                 e.printStackTrace();

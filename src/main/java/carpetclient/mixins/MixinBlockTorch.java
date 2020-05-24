@@ -10,6 +10,7 @@ import net.minecraft.block.BlockTorch;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import carpetclient.Config;
@@ -46,7 +47,7 @@ public class MixinBlockTorch extends Block {
         Block block = worldIn.getBlockState(pos).getBlock();
         boolean flag = block == Blocks.END_GATEWAY || (block == Blocks.LIT_PUMPKIN && !Config.relaxedBlockPlacement);
 
-        if (worldIn.getBlockState(pos).isTopSolid())
+        if (worldIn.getBlockState(pos).isSideSolid(worldIn, pos, EnumFacing.UP))
         {
             cir.setReturnValue(!flag);
         }

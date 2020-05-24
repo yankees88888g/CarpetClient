@@ -1,11 +1,14 @@
 package carpetclient.mixins;
 
-import carpetclient.Config;
-import carpetclient.bugfix.PistonFix;
-import carpetclient.mixinInterface.AMixinMinecraft;
-import carpetclient.mixinInterface.AMixinTimer;
-import carpetclient.rules.TickRate;
 import javax.annotation.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
@@ -15,11 +18,12 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.Timer;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import carpetclient.Config;
+import carpetclient.bugfix.PistonFix;
+import carpetclient.gui.chunkgrid.GuiChunkGrid;
+import carpetclient.mixinInterface.AMixinMinecraft;
+import carpetclient.mixinInterface.AMixinTimer;
+import carpetclient.rules.TickRate;
 
 
 /**
@@ -123,6 +127,13 @@ public abstract class MixinMinecraft implements IMixinMinecraft, AMixinMinecraft
             return (long) Math.max(200F * (20.0f / Config.tickRate), 200L);
         } else {
             return 200L;
+        }
+    }
+
+    @Inject(method = "updateFramebufferSize()V", at = @At("HEAD"))
+    private void onResize(CallbackInfo ci) {
+        if (GuiChunkGrid.instance.getMinimapType() != 0) {
+            GuiChunkGrid.instance.getController().updateMinimap();
         }
     }
 }

@@ -16,7 +16,6 @@ Code from EDDxample used to render markers ingame.
 public class RenderUtils {
     public static void prepareOpenGL(boolean b) {
         if (b) {
-            GlStateManager.disableFog();
             GlStateManager.disableLighting();
             GlStateManager.disableTexture2D();
             GlStateManager.enableBlend();
@@ -33,7 +32,6 @@ public class RenderUtils {
             GlStateManager.enableTexture2D();
             GlStateManager.enableDepth();
             GlStateManager.depthMask(true);
-            GlStateManager.enableFog();
         }
     }
 

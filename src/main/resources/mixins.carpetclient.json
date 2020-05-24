@@ -2,6 +2,7 @@
   "required": true,
   "package": "carpetclient.mixins",
   "refmap": "mixins.carpetclient.refmap.json",
+  "minVersion": "0.7",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinBlockFenceGate",
@@ -19,6 +20,7 @@
     "MixinPlayerInteractionManager",
     "MixinRenderGlobal",
     "MixinNetworkManager$5",
+    "MixinNetHandlerPlayClient",
     "gui.GUICarpet",
     "MixinItemPickaxe",
     "MixinItemShears",
