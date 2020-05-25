@@ -8,6 +8,7 @@ public enum ChunkGridStyle {
     GRADIENT_NOBG("Transparent Gradient", "0x's favorite style", false),
     CHECKERBOARD("Checkerboard", "Xcom's favorite style"),
     CHECKERBOARD_NOBG("Transparent Checkerboard", false),
+    small("small", false),
     //FLAT_COLOR("Flat Color"),
     ;
 
